@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>    
+</head>
+<body>
+    <!--The View-->    
+    <span data-bind="text:shortDesc"></span>
+    <div data-bind="text: description" class="descArea"></div>
+    <span data-bind="text:formatCurrency(salePrice)"></span>
+    <!---->
+ 
+    
+    
+    <script src="Scripts/jquery-2.1.3.js"></script>
+    <script src="Scripts/knockout-3.2.0.js"></script>
+    <script src="Scripts/knockout-3.2.0.debug.js"></script>
+    <!--Custom code goes here..-->
+    <script>
+        //The Model:
+        var data = {
+            "Id": 1001,
+            "SalePrice": 123.92,
+            "ListPrice": 4534.33,
+            "ShortDesc": "Ibanez 234-IC",
+            "Description": "Ibanez 234-IC Left Handed"
+        };
+        //The ViewModel: (object literal used to setup viewmodel)
+        //var vm = {
+        //    id: ko.observable(data.Id),
+        //    salePrice: ko.observable(data.SalePrice),
+        //    listPrice: ko.observable(data.ListPrice),
+        //    shortDesc: ko.observable(data.ShortDesc),
+        //    description: ko.observable(data.Description),
+        //    formatCurrency: function (value) {
+        //        return "$" + value().toFixed(2);
+        //    }
+        //};
+        //The ViewModel: (function used to setup viewmodel)
+        var vm = function(){
+            this.id= ko.observable(data.Id);
+            this.salePrice= ko.observable(data.SalePrice);
+            this.listPrice = ko.observable(data.ListPrice);
+            this.shortDesc = ko.observable(data.ShortDesc);
+            this.description = ko.observable(data.Description);
+            this.formatCurrency = function (value) {
+                return "$" + value().toFixed(2);
+            };
+        };
+        ko.applyBindings(vm);
+    </script>
+</body>
+
+</html>
