@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/jquery-2.1.3.js"></script>
+    <script src="Scripts/jquery-ui-1.11.3.js"></script>
+    <script src="Scripts/knockout-3.2.0.debug.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/autocomplete.js"></script>
+
+    <link href="Content/themes/base/all.css" rel="stylesheet" />
+
+    <script>
+
+        $(function () {
+
+            //group class
+            var Group = function () {
+                this.systemId = ko.observable();
+                this.groupId = ko.observable();
+                this.groupName = ko.observable();
+                this.disableGroup = ko.observable(false);
+            };
+
+            //viewModel:
+            my.vm = {
+                newGroup: ko.observable(""),
+                groups: ko.observableArray([]),
+                selectedGroup: ko.observable(),
+                load: function () {
+                    $.each(my.groupData.data.Groups, function (i, p) {
+                        my.vm.groups.push(new Group()
+                            .systemId(p.SystemId)
+                            .groupId(p.GroupId)
+                            .groupName(p.GroupName)
+                            );
+                    });
+                }
+
+                //ac test..
+               , users: my.remoteData.data.Users//,
+               
+               , selectedOption: ko.observable('')
+               
+               //, options: my.remoteData.data.Users
+                
+                //
+
+            };
+
+
+            my.vm.options = my.vm.users.map(function (element) {
+                return {label: element.name, value:element.id, object:element};
+            });
+
+            //ac test
+            //my.vm.options = function () {
+                //my.vm.users.map(function (element) {
+                //    return {
+                //        label: element.name,
+                //        value: element.id,
+                //        object: element
+                //    };
+                //});
+            //};
+            //
+
+            my.vm.removeGroup = function (group) {
+                my.vm.groups.remove(group);
+            };
+            my.vm.removeAllGroups = function () {
+                my.vm.groups.removeAll();
+            };
+
+            my.vm.groupHasBeenEntered = ko.computed(function () {
+                return my.vm.newGroup().length > 0;
+            });
+
+            my.vm.addGroup = function () {               
+                if (my.vm.newGroup() === "") {
+                    return;
+                }
+                
+                groupInArray = false;
+                groupIsValid = false;
+
+                $.each(my.availableGroupData.data.Groups, function (i, p) {
+                    if (p.GroupName.toUpperCase()==my.vm.newGroup().toUpperCase()) {
+                        groupIsValid = true;
+                        return;
+                    }
+                });
+
+                if (!groupIsValid) {
+                    return;
+                }
+
+                $.each(my.vm.groups(), function (v, p) {                    
+                    if (p.groupName().toUpperCase() == my.vm.newGroup().toUpperCase()) {                      
+                        groupInArray = true;
+                        return;
+                    }
+                });
+
+                if (!groupInArray) {
+                    my.vm.groups.push(new Group()
+                                        .groupName(my.vm.newGroup())
+                                        .groupId("DOCS_" + my.vm.newGroup().toUpperCase())
+                                        );
+                }
+                
+            };
+
+            my.vm.load();
+            ko.applyBindings(my.vm);
+
+        });
+
+    </script>
+</head>
+<body>
+    <div class="container"> 
+        <h2>Disable Groups</h2>  
+        
+        <!--<input type="text" data-bind="value: newGroup,  valueUpdate:'afterkeydown'" />-->
+        <input type="text" data-bind="autoComplete: {selected:selectedOption, options: options}" />
+        <!--<p data-bind="text: selectedOption().object.name"></p>-->
+
+        <button data-bind="click:addGroup, enable:groupHasBeenEntered">Add</button>
+                 
+        <table>
+            <tr><th>Group Id</th><th>Group Name</th><th>Disable</th></tr>            
+            <tbody data-bind="foreach:groups">
+                <tr>
+                    <td data-bind="text: groupId"></td>
+                    <td data-bind="text: groupName"></td>
+                    <td>
+                        <input type="checkbox" data-bind="checkedValue: disableGroup"/>
+                    </td>
+                    <td>
+                        <button data-bind="click: $parent.removeGroup">Remove</button>    
+                    </td>
+                </tr>
+            </tbody>            
+        </table>   
+        <button data-bind="click: removeAllGroups">Remove All</button>
+
+        <h2>debug</h2>
+        <div data-bind="foreach: users">
+            <span data-bind="text: name"></span>
+        </div>
+        <!--<button data-bind="click: removeGroup">Remove</button>-->    
+    </div>
+</body>
+</html>
