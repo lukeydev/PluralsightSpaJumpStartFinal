@@ -51,7 +51,9 @@
 
 
             my.vm.options = my.vm.users.map(function (element) {
-                return {label: element.name, value:element.id, object:element};
+                var dbg = element;
+
+                return {label: element.GroupName, value:element.GroupId, object:element};
             });
 
             //ac test
@@ -75,10 +77,14 @@
 
             my.vm.groupHasBeenEntered = ko.computed(function () {
                 return my.vm.newGroup().length > 0;
+                //return my.vm.selectedOption().length > 0;
             });
 
-            my.vm.addGroup = function () {               
-                if (my.vm.newGroup() === "") {
+            my.vm.addGroup = function () {
+
+                var selectedGroupToAdd = my.vm.selectedOption().object.GroupName;
+             
+                if (selectedGroupToAdd === "") {
                     return;
                 }
                 
@@ -86,7 +92,8 @@
                 groupIsValid = false;
 
                 $.each(my.availableGroupData.data.Groups, function (i, p) {
-                    if (p.GroupName.toUpperCase()==my.vm.newGroup().toUpperCase()) {
+                                        
+                    if (p.GroupName.toUpperCase() == selectedGroupToAdd.toUpperCase()) {
                         groupIsValid = true;
                         return;
                     }
@@ -97,7 +104,7 @@
                 }
 
                 $.each(my.vm.groups(), function (v, p) {                    
-                    if (p.groupName().toUpperCase() == my.vm.newGroup().toUpperCase()) {                      
+                    if (p.groupName().toUpperCase() == selectedGroupToAdd.toUpperCase()) {
                         groupInArray = true;
                         return;
                     }
@@ -105,8 +112,8 @@
 
                 if (!groupInArray) {
                     my.vm.groups.push(new Group()
-                                        .groupName(my.vm.newGroup())
-                                        .groupId("DOCS_" + my.vm.newGroup().toUpperCase())
+                                        .groupName(selectedGroupToAdd)
+                                        .groupId("DOCS_" + selectedGroupToAdd.toUpperCase())
                                         );
                 }
                 
@@ -124,8 +131,8 @@
         <h2>Disable Groups</h2>  
         
         <!--<input type="text" data-bind="value: newGroup,  valueUpdate:'afterkeydown'" />-->
-        <input type="text" data-bind="autoComplete: {selected:selectedOption, options: options}" />
-        <!--<p data-bind="text: selectedOption().object.name"></p>-->
+        <input type="text" data-bind="value:newGroup, autoComplete: {selected:selectedOption, options: options}, valueUpdate:'keyup'" />
+        <!--<p data-bind="text: selectedOption().name"></p>-->
 
         <button data-bind="click:addGroup, enable:groupHasBeenEntered">Add</button>
                  
@@ -148,7 +155,7 @@
 
         <h2>debug</h2>
         <div data-bind="foreach: users">
-            <span data-bind="text: name"></span>
+            <span data-bind="text: GroupName"></span>
         </div>
         <!--<button data-bind="click: removeGroup">Remove</button>-->    
     </div>

@@ -39,12 +39,17 @@ my.remoteData = (function (my) {
     "use strict";
     var data = {
         Users: [
-            { "name": 'DOCS_SUPERVISORS', "id": 1 },
-            { "name": 'DM_USERS', "id": 2 },
-            { "name": 'RECORDS_MANAGERS', "id": 3 },
-            { "name": 'CSD_CORP_REC', "id": 4 },
-            { "name": 'CSD_ICTS_BUS_SUP', "id": 5 },
-            { "name": 'HR', "id": 6 }
+            //{ "name": 'DOCS_SUPERVISORS', "id": 1 },
+            //{ "name": 'DM_USERS', "id": 2 },
+            //{ "name": 'RECORDS_MANAGERS', "id": 3 },
+            //{ "name": 'CSD_CORP_REC', "id": 4 },
+            //{ "name": 'CSD_ICTS_BUS_SUP', "id": 5 },
+            //{ "name": 'HR', "id": 6 }
+
+            { "SystemId": 5, "GroupId": "BULLS", "GroupName": "Chicago Bulls" },
+            { "SystemId": 6, "GroupId": "HORNETS", "GroupName": "Charlotte Hornets" },
+            { "SystemId": 7, "GroupId": "HEAT", "GroupName": "Miami Heat" },
+            { "SystemId": 8, "GroupId": "SPURA", "GroupName": "San Antonio Spurs" }
         ]
     };
     return {
