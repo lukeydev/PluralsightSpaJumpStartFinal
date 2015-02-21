@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/jquery-2.1.3.min.js"></script>
+    <script src="Scripts/knockout-3.2.0.debug.js"></script>
+    <script src="Scripts/Project/data.js"></script>
+
+    <script>
+        $(function () {
+
+            // Group construction, constructor function
+            var Group = function () {
+                this.groupId = ko.observable();
+                this.groupName = ko.observable();
+                this.disable = ko.observable();
+                //this.photoUrl = ko.computed(function () {
+                //    return photoPath + this.photo();
+                //}, this);
+            };
+
+            my.vm = {
+                groups: ko.observableArray([]),
+                selectedGroups: ko.observableArray([]),
+                newGroup: ko.observable(""),
+
+                load: function () {
+                    $.each(my.sampleData.data.Groups, function (i, p) {
+                        my.vm.groups.push(new Group()
+                            .groupId(p.Id)
+                            .groupName(p.GroupName)
+                            .disable(p.Disable)
+                            );
+                    });
+                }
+            };
+            //remove..
+            my.vm.groupsAreSelected = ko.computed(function () {
+                return my.vm.selectedGroups().length > 0;
+            });
+
+            my.vm.removeSelected = function () {
+                my.vm.groups.removeAll(my.vm.selectedGroups());
+                my.vm.selectedGroups([]);
+            };
+            //add..
+            my.vm.addNewGroup = function () {
+                alert(my.vm.newGroup());
+                if (my.vm.newGroup()==="") 
+                    return;
+                my.vm.groups.push(new Group() .groupName(my.vm.newGroup()));
+            };
+
+            my.vm.groupHasBeenEntered = ko.computed(function() {
+                return my.vm.newGroup().length > 0;
+            });
+
+            //sorting..
+            my.vm.groupExists = ko.computed(function () {
+                return my.vm.groups().length > 0;
+            });
+
+            my.vm.sortGroups = function(){
+                my.vm.groups.sort(
+                    function (left, right) {
+                        return left.groupName().toLowerCase() === right.groupName().toLowerCase()
+                        ? 0 : (left.groupName().toLowerCase() < right.groupName().toLowerCase() ? -1 : 1);
+                    }
+                    );
+            };
+
+            my.vm.load();
+            ko.applyBindings(my.vm);
+        });
+    </script>
+
+</head>
+<body>
+
+    <span data-bind="text:groups().length"></span>
+
+    <select class="groupsSelect" multiple="multiple"
+            data-bind="options: groups, selectedOptions:selectedGroups, optionsText: 'groupName'"></select>
+
+    <button data-bind="click: removeSelected, enable:groupsAreSelected ">Remove</button>
+
+    <input type="text" data-bind="value:newGroup, valueUpdate:'afterkeydown'" />
+    <button data-bind="click:addNewGroup, enable: groupHasBeenEntered">Add</button>
+
+    <button data-bind="click:sortGroups, enable: groupExists">Sort</button>
+
+</body>
+</html>

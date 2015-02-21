@@ -59,6 +59,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GroupManager.html" />
     <Content Include="Lesson4.html" />
     <Content Include="Home.html" />
     <Content Include="Lesson2.html" />
@@ -69,6 +70,8 @@
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\knockout-3.2.0.debug.js" />
     <Content Include="Scripts\knockout-3.2.0.js" />
+    <Content Include="Scripts\Project\data.js" />
+    <Content Include="Scripts\Project\GroupManager.js" />
     <Content Include="Scripts\Project\Lesson4.js" />
     <Content Include="Scripts\Project\home.js" />
     <Content Include="Web.config" />
