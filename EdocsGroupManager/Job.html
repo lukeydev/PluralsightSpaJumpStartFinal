@@ -26,7 +26,7 @@
                         <td data-bind="text: groupId"></td>
                         <td data-bind="text: groupName"></td>
                         <td>
-                            <input type="checkbox" data-bind="checkedValue: disableGroup" />
+                            <input type="checkbox" data-bind="checked: disableGroup" />
                         </td>
                         <td>
                             <button data-bind="click: $parent.removeGroup">Remove</button>
@@ -43,18 +43,20 @@
 
 
     <div id="MappedGroups" data-bind="with: my.vmMap">
-        <!--Set Mapped-->
         <h2>Mapped Groups</h2>
         <input type="text" data-bind="value:newGroup, autoComplete: {selected:selectedOption, options: options}, valueUpdate:'keyup'" />
         <button data-bind="click:addGroup, enable:groupHasBeenEntered">Add</button>
         <table>
-            <tr><th>Group Id</th><th>Group Name</th><th>ReadOnly</th></tr>
+            <tr><th>Group Id</th><th>Group Name</th><th>Full Control</th><th>ReadOnly</th></tr>
             <tbody data-bind="foreach:groups">
                 <tr>
                     <td data-bind="text: groupId"></td>
                     <td data-bind="text: groupName"></td>
                     <td>
-                        <input type="checkbox" data-bind="checkedValue: fullControl" />
+                        <input type="checkbox" data-bind="checked: fullControl" />
+                    </td>
+                    <td>
+                        <input type="checkbox" data-bind="checked: readOnly" />
                     </td>
                     <td>
                         <button data-bind="click: $parent.removeGroup">Remove</button>

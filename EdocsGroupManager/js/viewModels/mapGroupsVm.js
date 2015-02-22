@@ -1,29 +1,34 @@
 ﻿/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
+
+
 $(function () {
 
     var MappedGroup = function () {
         this.systemId = ko.observable();
         this.groupId = ko.observable();
         this.groupName = ko.observable();
-        this.readOnly = ko.observable(false);
+        this.readOnly = ko.observable(true);
         this.fullControl = ko.observable(false);
     };
 
     //mapped:
+
     my.vmMap = { 
         newGroup: ko.observable(""),
         groups: ko.observableArray([]),
         selectedGroup: ko.observable(),
-        load: function () {
-            $.each(my.groupData.data.Groups, function (i, p) {
+        load: function () {            
+            $.each(my.setMapGroupsData.data.MappedGroups, function (i, p) {
                 my.vmMap.groups.push(new MappedGroup()
                     .systemId(p.SystemId)
                     .groupId(p.GroupId)
                     .groupName(p.GroupName)
+                    .readOnly(p.ReadOnly)
+                    .fullControl(p.FullControl)
                     );
             });
         },
-        users: my.remoteData.data.Users,
+        validGroups: my.validGroupData.data.Groups,
         selectedOption: ko.observable('')
     };
 
@@ -37,7 +42,7 @@ $(function () {
 
     //add:
     //autoComplete Options
-    my.vmMap.options = my.vmMap.users.map(function (element) {
+    my.vmMap.options = my.vmMap.validGroups.map(function (element) {
         return { label: element.GroupName, value: element.GroupId, object: element };
     });
     //add

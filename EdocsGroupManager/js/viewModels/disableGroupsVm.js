@@ -13,19 +13,22 @@
         groups: ko.observableArray([]),
         selectedGroup: ko.observable(),
         load: function () {
-            $.each(my.groupData.data.Groups, function (i, p) {
+          //  var test = my.groupData.data.Groups;
+
+            $.each(my.setDisableGroupsData.data.Groups, function (i, p) {
                 my.vmDisable.groups.push(new Group()
                     .systemId(p.SystemId)
                     .groupId(p.GroupId)
                     .groupName(p.GroupName)
+                    .disableGroup(p.DisableGroup)
                     );
             });
         },
-        users: my.remoteData.data.Users,
+        validGroups: my.validGroupData.data.Groups,
         selectedOption: ko.observable('')
     };
     //autoComplete Options
-    my.vmDisable.options = my.vmDisable.users.map(function (element) {
+    my.vmDisable.options = my.vmDisable.validGroups.map(function (element) {
         var dbg = element;
 
         return { label: element.GroupName, value: element.GroupId, object: element };
