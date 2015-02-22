@@ -9,7 +9,6 @@ $(function () {
         this.fullControl = ko.observable(false);
     };
 
-
     //mapped:
     my.vmMap = { 
         newGroup: ko.observable(""),
