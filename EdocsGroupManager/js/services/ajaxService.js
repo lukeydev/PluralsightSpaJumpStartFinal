@@ -5,11 +5,17 @@
 (function (my) {
     "use strict";
     //TODO:  put your hosting server here
-    var serviceBase = 'http://localhost:49218/api/groups/',
-        getSvcUrl = function (method) { return serviceBase + method; };
 
+
+
+    //var serviceBase = 'http://localhost:49218/api/groups/',
+    var serviceBase = 'http://localhost:49218/api/',
+        getSvcUrl = function (method) { return serviceBase + method; };
+    
     my.ajaxService = (function () {
         var ajaxGetJson = function (method, jsonIn, callback) {
+            alert(getSvcUrl(method));
+
             $.ajax({
                 url: getSvcUrl(method),
                 type: "GET",

@@ -8,7 +8,12 @@
     my.groupDataService = {
         getAllGroups: function (callback) {
             //my.ajaxService.ajaxGetJsonp("GetSaleItems", null, callback);
-            my.ajaxService.ajaxGetJson("GetAllGroups", null, callback);
+            my.ajaxService.ajaxGetJson("groups/GetAllGroups", null, callback);
+        },
+
+        
+        getAllMappedGroups: function (callback) {
+            my.ajaxService.ajaxGetJson("mappedGroups/GetAllMappedGroups", null, callback);
         }
         //,
 

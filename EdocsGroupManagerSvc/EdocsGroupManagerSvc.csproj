@@ -77,10 +77,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\MappedGroupsController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\MappedGroup.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

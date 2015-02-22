@@ -1,4 +1,6 @@
 ﻿/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../services/ajaxService.js" />
+/// <reference path="../services/dataGroupService.js" />
 
 
 $(function () {
@@ -17,8 +19,10 @@ $(function () {
         newGroup: ko.observable(""),
         groups: ko.observableArray([]),
         selectedGroup: ko.observable(),
-        load: function () {            
-            $.each(my.setMapGroupsData.data.MappedGroups, function (i, p) {
+        loadGroupsCallback: function (json) {
+            //var test = "goat";
+            
+            $.each(json, function (i, p) {
                 my.vmMap.groups.push(new MappedGroup()
                     .systemId(p.SystemId)
                     .groupId(p.GroupId)
@@ -28,6 +32,11 @@ $(function () {
                     );
             });
         },
+        loadGroups: function () {
+            my.groupDataService.getAllMappedGroups(my.vmMap.loadGroupsCallback);
+        },
+
+
         validGroups: my.validGroupData.data.Groups,
         selectedOption: ko.observable('')
     };
@@ -85,7 +94,7 @@ $(function () {
     //
 
 
-    my.vmMap.load();
+    my.vmMap.loadGroups();
     ko.applyBindings(my.vmMap);
     //ko.applyBindings(my.vmMap, document.getElementById('#MappedGroups'));
 
