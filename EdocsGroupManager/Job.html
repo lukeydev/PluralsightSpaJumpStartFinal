@@ -9,11 +9,13 @@
     <script src="js/data.js"></script>
     <script src="js/bindingHandlers/autocomplete.js"></script>
     <script src="js/viewModels/disableGroupsVm.js"></script>
+    <script src="js/viewModels/mapGroupsVm.js"></script>
+    <!--<script src="js/viewModels/masterVm.js"></script>-->
     <link href="Content/themes/base/all.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="container">
-        <div class="DisableGroups">
+   
+        <div id="DisableGroups" data-bind="with: my.vmDisable">
             <h2>Disable Groups</h2>
             <input type="text" data-bind="value:newGroup, autoComplete: {selected:selectedOption, options: options}, valueUpdate:'keyup'" />
             <button data-bind="click:addGroup, enable:groupHasBeenEntered">Add</button>
@@ -33,37 +35,36 @@
                 </tbody>
             </table>
             <button data-bind="click: removeAllGroups">Remove All</button>
-            <h2>debug Disable Groups</h2>
-            <div data-bind="foreach: groups">
+            <h2>debug Disable Groups</h2>            
+            <!--div data-bind="foreach: groups">
                 <span data-bind="text: groupName"></span>
-            </div>
-
-            <!--Set Mapped-->
-            <h2>Mapped Groups</h2>
-            <input type="text" data-bind="value:newGroup, autoComplete: {selected:selectedOption, options: options}, valueUpdate:'keyup'" />
-            <button data-bind="click:addGroup, enable:groupHasBeenEntered">Add</button>
-            <table>
-                <tr><th>Group Id</th><th>Group Name</th><th>Disable</th></tr>
-                <tbody data-bind="foreach:groups">
-                    <tr>
-                        <td data-bind="text: groupId"></td>
-                        <td data-bind="text: groupName"></td>
-                        <td>
-                            <input type="checkbox" data-bind="checkedValue: disableGroup" />
-                        </td>
-                        <td>
-                            <button data-bind="click: $parent.removeGroup">Remove</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <button data-bind="click: removeAllGroups">Remove All</button>
-            <h2>debug Disable Groups</h2>
-            <div data-bind="foreach: groups">
-                <span data-bind="text: groupName"></span>
-            </div>
-            <!--Set Mapped-->
+            </div>-->
         </div>
+
+
+    <div id="MappedGroups" data-bind="with: my.vmMap">
+        <!--Set Mapped-->
+        <h2>Mapped Groups</h2>
+        <input type="text" data-bind="value:newGroup, autoComplete: {selected:selectedOption, options: options}, valueUpdate:'keyup'" />
+        <button data-bind="click:addGroup, enable:groupHasBeenEntered">Add</button>
+        <table>
+            <tr><th>Group Id</th><th>Group Name</th><th>ReadOnly</th></tr>
+            <tbody data-bind="foreach:groups">
+                <tr>
+                    <td data-bind="text: groupId"></td>
+                    <td data-bind="text: groupName"></td>
+                    <td>
+                        <input type="checkbox" data-bind="checkedValue: fullControl" />
+                    </td>
+                    <td>
+                        <button data-bind="click: $parent.removeGroup">Remove</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button data-bind="click: removeAllGroups">Remove All</button>
+        <h2>debug Disable Groups</h2>
     </div>
+    
 </body>
 </html>

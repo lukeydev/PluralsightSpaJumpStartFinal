@@ -1,20 +1,23 @@
-﻿$(function () {
-    //group class
-    var Group = function () {
+﻿/// <reference path="../../Scripts/knockout-3.2.0.debug.js" />
+$(function () {
+
+    var MappedGroup = function () {
         this.systemId = ko.observable();
         this.groupId = ko.observable();
         this.groupName = ko.observable();
-        this.disableGroup = ko.observable(false);
+        this.readOnly = ko.observable(false);
+        this.fullControl = ko.observable(false);
     };
 
-    //viewModel:
-    my.vmDisable = {
+
+    //mapped:
+    my.vmMap = { 
         newGroup: ko.observable(""),
         groups: ko.observableArray([]),
         selectedGroup: ko.observable(),
         load: function () {
             $.each(my.groupData.data.Groups, function (i, p) {
-                my.vmDisable.groups.push(new Group()
+                my.vmMap.groups.push(new MappedGroup()
                     .systemId(p.SystemId)
                     .groupId(p.GroupId)
                     .groupName(p.GroupName)
@@ -24,26 +27,27 @@
         users: my.remoteData.data.Users,
         selectedOption: ko.observable('')
     };
-    //autoComplete Options
-    my.vmDisable.options = my.vmDisable.users.map(function (element) {
-        var dbg = element;
 
+    //remove
+    my.vmMap.removeGroup = function (group) {
+        my.vmMap.groups.remove(group);
+    };
+    my.vmMap.removeAllGroups = function () {
+        my.vmMap.groups.removeAll();
+    };
+
+    //add:
+    //autoComplete Options
+    my.vmMap.options = my.vmMap.users.map(function (element) {
         return { label: element.GroupName, value: element.GroupId, object: element };
     });
-    //remove
-    my.vmDisable.removeGroup = function (group) {
-        my.vmDisable.groups.remove(group);
-    };
-    my.vmDisable.removeAllGroups = function () {
-        my.vmDisable.groups.removeAll();
-    };
     //add
-    my.vmDisable.groupHasBeenEntered = ko.computed(function () {
-        return (my.vmDisable.selectedOption().object == null) ? false : (my.vmDisable.selectedOption().object.GroupName.length > 0);
+    my.vmMap.groupHasBeenEntered = ko.computed(function () {
+        return (my.vmMap.selectedOption().object == null) ? false : (my.vmMap.selectedOption().object.GroupName.length > 0);
         //return my.vmDisable.newGroup().length > 0;                
     });
-    my.vmDisable.addGroup = function () {
-        var selectedGroupToAdd = my.vmDisable.selectedOption().object.GroupName;
+    my.vmMap.addGroup = function () {
+        var selectedGroupToAdd = my.vmMap.selectedOption().object.GroupName;
         if (selectedGroupToAdd === "") {
             return;
         }
@@ -59,14 +63,14 @@
         if (!groupIsValid) {
             return;
         }
-        $.each(my.vmDisable.groups(), function (v, p) {
+        $.each(my.vmMap.groups(), function (v, p) {
             if (p.groupName().toUpperCase() == selectedGroupToAdd.toUpperCase()) {
                 groupInArray = true;
                 return;
             }
         });
         if (!groupInArray) {
-            my.vmDisable.groups.push(new Group()
+            my.vmMap.groups.push(new MappedGroup()
                                 .groupName(selectedGroupToAdd)
                                 .groupId("DOCS_" + selectedGroupToAdd.toUpperCase())
                                 );
@@ -74,7 +78,11 @@
 
     };
 
-    my.vmDisable.load();
-    //ko.applyBindings(my.vmDisable, document.getElementById('#DisableGroups'));
-    //ko.applyBindings(my.vmDisable);
+    //
+
+
+    my.vmMap.load();
+    ko.applyBindings(my.vmMap);
+    //ko.applyBindings(my.vmMap, document.getElementById('#MappedGroups'));
+
 });
