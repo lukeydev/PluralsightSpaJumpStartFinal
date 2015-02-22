@@ -35,8 +35,6 @@ $(function () {
         loadGroups: function () {
             my.groupDataService.getAllMappedGroups(my.vmMap.loadGroupsCallback);
         },
-
-
         validGroups: my.validGroupData.data.Groups,
         selectedOption: ko.observable('')
     };
