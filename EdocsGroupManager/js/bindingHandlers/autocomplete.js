@@ -39,24 +39,3 @@ ko.bindingHandlers.autoComplete = {
         });
     }
 };
-
-// Array with original data
-//var remoteData = [{
-//    name: 'DOCS_SUPERVISORS',
-//    id: 1
-//}, {
-//    name: 'DM_USERS',
-//    id: 2
-//}, {
-//    name: 'RECORDS_MANAGERS',
-//    id: 3
-//}, {
-//    name: 'CSD_CORP_REC',
-//    id: 4
-//}, {
-//    name: 'CSD_ICTS_BUS_SUP',
-//    id: 5
-//}, {
-//    name: 'HR',
-//    id: 6
-//}];
