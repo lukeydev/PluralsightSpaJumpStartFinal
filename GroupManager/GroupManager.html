@@ -4,8 +4,12 @@
     <title></title>
     <script src="Scripts/jquery-2.1.3.min.js"></script>
     <script src="Scripts/knockout-3.2.0.debug.js"></script>
+    <!--<script src="Scripts/bootstrap.min.js"></script>-->
+    <script src="Scripts/bootstrap.js"></script>
     <script src="Scripts/Project/data.js"></script>
-
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.min.css" rel="stylesheet" />
+    
     <script>
         $(function () {
 
@@ -13,7 +17,7 @@
             var Group = function () {
                 this.groupId = ko.observable();
                 this.groupName = ko.observable();
-                this.disable = ko.observable();
+                this.disableMe = ko.observable();
                 //this.photoUrl = ko.computed(function () {
                 //    return photoPath + this.photo();
                 //}, this);
@@ -22,17 +26,24 @@
             my.vm = {
                 groups: ko.observableArray([]),
                 selectedGroups: ko.observableArray([]),
-                newGroup: ko.observable(""),
+                groupToAdd: ko.observable(""),
 
                 load: function () {
                     $.each(my.sampleData.data.Groups, function (i, p) {
                         my.vm.groups.push(new Group()
                             .groupId(p.Id)
                             .groupName(p.GroupName)
-                            .disable(p.Disable)
+                            .disableMe(p.Disable)
                             );
                     });
-                }
+                },
+                htmlSampler: ko.observable("<strong><em>knockout rocks</em></strong>"),
+
+                selectedColorForGroup: ko.observable(),
+                colors: [{ key: "BR", name: "Brown" },
+                    { key: "BL", name: "Blue" },
+                    { key: "BK", name: "Black" },
+                ]
             };
             //remove..
             my.vm.groupsAreSelected = ko.computed(function () {
@@ -44,15 +55,15 @@
                 my.vm.selectedGroups([]);
             };
             //add..
-            my.vm.addNewGroup = function () {
-                alert(my.vm.newGroup());
-                if (my.vm.newGroup()==="") 
+            my.vm.addGroup = function () {
+                alert(my.vm.groupToAdd());
+                if (my.vm.groupToAdd() === "")
                     return;
-                my.vm.groups.push(new Group() .groupName(my.vm.newGroup()));
+                my.vm.groups.push(new Group().groupName(my.vm.groupToAdd()));
             };
 
             my.vm.groupHasBeenEntered = ko.computed(function() {
-                return my.vm.newGroup().length > 0;
+                return my.vm.groupToAdd().length > 0;
             });
 
             //sorting..
@@ -69,6 +80,8 @@
                     );
             };
 
+
+
             my.vm.load();
             ko.applyBindings(my.vm);
         });
@@ -84,10 +97,52 @@
 
     <button data-bind="click: removeSelected, enable:groupsAreSelected ">Remove</button>
 
-    <input type="text" data-bind="value:newGroup, valueUpdate:'afterkeydown'" />
-    <button data-bind="click:addNewGroup, enable: groupHasBeenEntered">Add</button>
+    <!--<input type="text" data-bind="value:groupToAdd, valueUpdate:'afterkeydown'" />
+    <button data-bind="click:addGroup, enable: groupHasBeenEntered">Add</button>-->
+
+    <form data-bind="submit: addGroup">
+        <input type="text" data-bind="value:groupToAdd, valueUpdate:'afterkeydown'"/>
+        <button type="submit" data-bind="enable: groupHasBeenEntered">Add</button>
+    </form>
 
     <button data-bind="click:sortGroups, enable: groupExists">Sort</button>
+
+    <table class="table-bordered table-striped">
+
+        <thead>
+            <tr>
+                <th>target value</th>
+                <th>source</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span data-bind="text:htmlSampler"></span>></td>
+                <td><span data-bind="html:htmlSampler"></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="caption">checked and value</div>
+    <div class="notes">radio buttons</div>
+
+    <input type="radio" value="BR" data-bind="checked:selectedColorForGroup"/><span>brown</span>
+    <input type="radio" value="BL" data-bind="checked:selectedColorForGroup" /><span>blue</span>
+    <input type="radio" value="BK" data-bind="checked:selectedColorForGroup" /><span>black</span>
+    <br/>
+    <span>selectedColorForGroup:</span><span data-bind="text: selectedColorForGroup "></span>
+
+    <!--use array-->
+    <div class="caption">checked and value</div>
+    <div class="notes">radio buttons (foreach)</div>
+    <div data-bind="foreach: colors">
+        <input type="radio" data-bind=" checked: $parent.selectedColorForGroup, value: key " /><span data-bind="text: name">black</span>
+
+    </div>
+    <br />
+    <span>selectedColorForGroup:</span><span data-bind="text: selectedColorForGroup "></span>
+
+
 
 </body>
 </html>

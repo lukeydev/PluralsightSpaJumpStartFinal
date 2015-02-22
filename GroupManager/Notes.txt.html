@@ -55,3 +55,26 @@ Notify when items are
 No notification when props of item in collection change
 -use ko.observable for those properties
 
+Observable Array functons
+indexOf, reverse, shift, unshift, slice, splice,replace
+
+Subscribing to Changes:
+-register to be notified when changes occur
+-similiar to writing code in a property setter in .Net
+-useful when you need to take action when a property changes
+
+e.g 
+vm.selectedMake.subscribe(function(){
+    vm.selectedModel(undefined);//do what you want..
+    }, vm)
+
+BUILT IN BINDINGS:
+text, html, value bindings, checkboes and radio buttons, drop down lists, enabling and disabling elements, setting and determining focus, handling events and binding to methods, css and styling, attributes
+
+Built into KO
+facilitate binding to attributes for elements
+may use multiple binding expressions seperated by commas
+
+attr is handy for attributes that don't have binding automatically
+
+  value:  valueUpdate:'afterkeydown (otheroptions= change, keyup, keydown, keypress)

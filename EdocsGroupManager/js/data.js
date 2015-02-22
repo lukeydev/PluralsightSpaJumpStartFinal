@@ -1,4 +1,6 @@
 ﻿/// <reference path="../Scripts/knockout-3.2.0.debug.js" />
+/// <reference path="../Scripts/jquery-2.1.3.js" />
+
 var my = {};
 
 //add service pulls here, currently set to sample data..
@@ -38,14 +40,8 @@ my.availableGroupData = (function (my) {
 my.validGroupData = (function (my) {
     "use strict";
     var data = {
-        Groups: [
-            //{ "name": 'DOCS_SUPERVISORS', "id": 1 },
-            //{ "name": 'DM_USERS', "id": 2 },
-            //{ "name": 'RECORDS_MANAGERS', "id": 3 },
-            //{ "name": 'CSD_CORP_REC', "id": 4 },
-            //{ "name": 'CSD_ICTS_BUS_SUP', "id": 5 },
-            //{ "name": 'HR', "id": 6 }
 
+        Groups: [
             { "SystemId": 5, "GroupId": "BULLS", "GroupName": "Chicago Bulls" },
             { "SystemId": 6, "GroupId": "HORNETS", "GroupName": "Charlotte Hornets" },
             { "SystemId": 7, "GroupId": "HEAT", "GroupName": "Miami Heat" },
